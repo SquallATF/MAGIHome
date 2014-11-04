@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="icon_pack">
+        <item>android</item>
+        <item>play_store</item>
+        <item>appli</item>
+        <item>gmail</item>
+        <item>google_place</item>
+        <item>google_plus</item>
+        <item>google_search</item>
+        <item>google_talk</item>
+        <item>latitude</item>
+        <item>map</item>
+        <item>messenger</item>
+        <item>youtube</item>
+        <item>android_market</item>
+        <item>video</item>
+        <item>blowser</item>
+        <item>calculator</item>
+        <item>alarm</item>
+        <item>calender</item>
+        <item>camera</item>
+        <item>card</item>
+        <item>communication</item>
+        <item>cooking</item>
+        <item>dictionary</item>
+        <item>disaster</item>
+        <item>document</item>
+        <item>downlode</item>
+        <item>d_market</item>
+        <item>d_menu</item>
+        <item>nottv</item>
+        <item>phone_appli</item>
+        <item>phone_book</item>
+        <item>photo_gallary</item>
+        <item>purse</item>
+        <item>screen_list</item>
+        <item>search</item>
+        <item>setting</item>
+        <item>shopping</item>
+        <item>shortcut</item>
+        <item>sito</item>
+        <item>sp_mode_mail</item>
+        <item>text_input</item>
+        <item>train</item>
+        <item>tv</item>
+        <item>voice_recorder</item>
+        <item>weather</item>
+        <item>e_book</item>
+        <item>fitness</item>
+        <item>folder</item>
+        <item>game</item>
+        <item>gourmet</item>
+        <item>grid_selector.xml</item>
+        <item>health</item>
+        <item>home_icon</item>
+        <item>household_book</item>
+        <item>i.ch</item>
+        <item>icon_list</item>
+        <item>list.txt</item>
+        <item>not_android</item>
+        <item>mail</item>
+        <item>memo</item>
+        <item>message</item>
+        <item>monorail</item>
+        <item>movie</item>
+        <item>navi</item>
+        <item>nerv</item>
+        <item>news</item>
+        <item>num0</item>
+        <item>num1</item>
+        <item>num2</item>
+        <item>num3</item>
+        <item>num4</item>
+        <item>num5</item>
+        <item>num6</item>
+        <item>num7</item>
+        <item>num8</item>
+        <item>num9</item>
+        <item>num10</item>
+        <item>magic1</item>
+        <item>magic2</item>
+        <item>magic3</item>
+        <item>magic4</item>
+        <item>magic5</item>
+        <item>magic6</item>
+        <item>magic7</item>
+        <item>magic8</item>
+        <item>emoticon1</item>
+        <item>emoticon2</item>
+        <item>emoticon3</item>
+        <item>emoticon4</item>
+        <item>other1</item>
+        <item>other2</item>
+        <item>other3</item>
+        <item>other4</item>
+        <item>other5</item>
+        <item>other6</item>
+        <item>other7</item>
+        <item>other8</item>
+        <item>other9</item>
+        <item>other10</item>
+        <item>other11</item>
+        <item>other12</item>
+        <item>other13</item>
+        <item>other14</item>
+        <item>other15</item>
+        <item>other16</item>
+        <item>other17</item>
+        <item>other18</item>
+        <item>other19</item>
+        <item>other21</item>
+        <item>other22</item>
+        <item>other23</item>
+        <item>other24</item>
+        <item>other25</item>
+        <item>other26</item>
+        <item>other27</item>
+        <item>other28</item>
+        <item>other29</item>
+        <item>other30</item>
+        <item>other31</item>
+        <item>other32</item>
+    </string-array>
+    <string-array name="menu_binding_entries">
+        <item>NONE</item>
+        <item>Move to default desktop</item>
+        <item>Move to default desktop/show previews</item>
+        <item>Show screen list</item>
+        <item>Open/close App Drawer</item>
+        <item>Show notifications</item>
+        <item>Move to default desktop/Open notifications</item>
+        <item>Open App...</item>
+    </string-array>
+    <string-array name="desktop_indicator_entries">
+        <item>Dot paginator top</item>
+        <item>Sliding paginator top</item>
+        <item>Sliding paginator bottom</item>
+    </string-array>
+    <string-array name="home_orientation_entries">
+        <item>Auto/sensor</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+    </string-array>
+    <string-array name="screen_cache_entries">
+        <item>Low quality</item>
+        <item>Auto</item>
+        <item>Disabled</item>
+    </string-array>
+    <string-array name="main_dock_entries">
+        <item>None (expand desktop)</item>
+        <item>3 Icons</item>
+        <item>5 Icons</item>
+        <item>1 Icon</item>
+    </string-array>
+    <string-array name="deletezone_entries">
+        <item>None</item>
+        <item>Top</item>
+        <item>Bottom</item>
+        <item>Top (Shrink desktop)</item>
+        <item>Bottom (Shrink desktop)</item>
+    </string-array>
+    <string-array name="app_drawer_style_entries">
+        <item>Vertical plain</item>
+        <item>Horizontal paginated</item>
+    </string-array>
+    <!-- Do not translate. -->
+    <string-array name="menu_binding_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <!-- Do not translate. -->
+    <string-array name="desktop_indicator_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="home_orientation_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="screen_cache_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="main_dock_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="deletezone_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="app_drawer_style_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="maagi_widgets_values">
+        <item>jp.co.evangelion.calendar</item>
+        <item>jp.co.evangelion.digitalclock</item>
+        <item>jp.co.evangelion.usbdetector</item>
+        <item>jp.co.evangelion.earphonedetector</item>
+        <item>jp.co.evangelion.cpucounter</item>
+        <item>jp.co.evangelion.memorycounter</item>
+        <item>jp.co.evangelion.antennareceiver</item>
+        <item>jp.co.evangelion.locationreceiver</item>
+        <item>jp.co.evangelion.analogclock</item>
+        <item>jp.co.evangelion.batteryreceiver</item>
+        <item>jp.co.evangelion.telephonenumber</item>
+        <item>jp.co.evangelion.uniquenumber</item>
+        <item>jp.co.evangelion.googletoolbar</item>
+        <item>jp.co.evangelion.storagecounter</item>
+        <item>jp.co.evangelion.evanewsreceiver</item>
+        <item>jp.co.evangelion.memopad</item>
+        <item>com.arcsoft.music_player</item>
+        <item>jp.co.evangelion.evaweather</item>
+    </string-array>
+
+    <array name="extra_wallpapers" />
+
+</resources>

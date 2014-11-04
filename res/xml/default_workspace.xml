@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<favorites xmlns:launcher="http://schemas.android.com/apk/res/jp.co.evangelion.nervhome">
+    <shortcut
+        launcher:screen="-1"
+        launcher:x="-1"
+        launcher:y="-1"
+        launcher:icon="@drawable/icon_list"
+        launcher:title="@string/dock_open_close"
+        launcher:uri="\#Intent;action=jp.co.evangelion.nervhome.action.launcheraction;component=jp.co.evangelion.nervhome/.CustomShirtcutActivity;i.DefaultLauncherAction.EXTRA_BINDINGVALUE=4;end"
+        launcher:container="-700" />
+    
+    <shortcut
+        launcher:screen="-1"
+        launcher:x="-1"
+        launcher:y="-1"
+        launcher:icon="@drawable/blowser"
+        launcher:title="@string/dock_browser"
+        launcher:uri="\#Intent;action=android.intent.action.MAIN;component=com.android.browser/.BrowserActivity;end"
+        launcher:container="-300" />
+    
+    <shortcut
+        launcher:screen="-1"
+        launcher:x="-1"
+        launcher:y="-1"
+        launcher:icon="@drawable/phone_appli"
+        launcher:title="@string/dock_phone"
+        launcher:uri="\#Intent;action=android.intent.action.MAIN;component=com.android.contacts/.activities.DialtactsActivity;end"
+        launcher:container="-500" />
+    
+    <shortcut
+        launcher:screen="-1"
+        launcher:x="-1"
+        launcher:y="-1"
+        launcher:icon="@drawable/sp_mode_mail"
+        launcher:title="@string/dock_sp_mail"
+        launcher:uri="\#Intent;action=android.intent.action.MAIN;component=jp.co.nttdocomo.carriermail/.activity.EulaViewer;end"
+        launcher:container="-600" />
+    
+    <shortcut
+        launcher:screen="-1"
+        launcher:x="-1"
+        launcher:y="-1"
+        launcher:icon="@drawable/showpreviews_button"
+        launcher:title="@string/dock_preview"
+        launcher:uri="\#Intent;action=jp.co.evangelion.nervhome.action.launcheraction;component=jp.co.evangelion.nervhome/.CustomShirtcutActivity;i.DefaultLauncherAction.EXTRA_BINDINGVALUE=3;end"
+        launcher:container="-400" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.googletoolbar.EvaGoogleWidgetProvider"
+        launcher:packageName="jp.co.evangelion.googletoolbar"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.analogclock.AnalogClockProvider"
+        launcher:packageName="jp.co.evangelion.analogclock"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="1"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.calendar.EvaCalendarWidgetProvider"
+        launcher:packageName="jp.co.evangelion.calendar"
+        launcher:screen="3"
+        launcher:x="1"
+        launcher:y="1"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.batteryreceiver.BatteryReceiverProvider"
+        launcher:packageName="jp.co.evangelion.batteryreceiver"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.telephonenumber.EvaUserPhoneNoWidgetProvider"
+        launcher:packageName="jp.co.evangelion.telephonenumber"
+        launcher:screen="3"
+        launcher:x="1"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="com.arcsoft.music_player.widget.MusicWidgetProvider"
+        launcher:packageName="com.arcsoft.music_player"
+        launcher:screen="3"
+        launcher:x="2"
+        launcher:y="1"
+        launcher:spanX="2"
+        launcher:spanY="2" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.evaweather.EvaWeatherWidgetProvider"
+        launcher:packageName="jp.co.evangelion.evaweather"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="3"
+        launcher:spanX="2"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.uniquenumber.MagiUniqueIdProvider"
+        launcher:packageName="jp.co.evangelion.uniquenumber"
+        launcher:screen="3"
+        launcher:x="2"
+        launcher:y="3"
+        launcher:spanX="2"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.cpucounter.EvaCPUWidgetProvider"
+        launcher:packageName="jp.co.evangelion.cpucounter"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="4"
+        launcher:spanX="4"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.memorycounter.EvaMemoryWidgetProvider"
+        launcher:packageName="jp.co.evangelion.memorycounter"
+        launcher:screen="3"
+        launcher:x="0"
+        launcher:y="5"
+        launcher:spanX="3"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.usbdetector.EvaDetectUSBWidgetProvider"
+        launcher:packageName="jp.co.evangelion.usbdetector"
+        launcher:screen="3"
+        launcher:x="3"
+        launcher:y="5"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.evanewsreceiver.EvaNewsReceiverProvider"
+        launcher:packageName="jp.co.evangelion.evanewsreceiver"
+        launcher:screen="4"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.storagecounter.EvaStorageCounterWidgetProvider"
+        launcher:packageName="jp.co.evangelion.storagecounter"
+        launcher:screen="4"
+        launcher:x="0"
+        launcher:y="1"
+        launcher:spanX="2"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.earphonedetector.EvaDetectEarphoneWidgetProvider"
+        launcher:packageName="jp.co.evangelion.earphonedetector"
+        launcher:screen="4"
+        launcher:x="0"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.digitalclock.EvaDigitalClockWidgetProvider"
+        launcher:packageName="jp.co.evangelion.digitalclock"
+        launcher:screen="4"
+        launcher:x="1"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.memopad.MemoPadProvider"
+        launcher:packageName="jp.co.evangelion.memopad"
+        launcher:screen="4"
+        launcher:x="2"
+        launcher:y="1"
+        launcher:spanX="2"
+        launcher:spanY="2" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.antennareceiver.EvaAntennaLevelWidgetProvider"
+        launcher:packageName="jp.co.evangelion.antennareceiver"
+        launcher:screen="4"
+        launcher:x="0"
+        launcher:y="3"
+        launcher:spanX="2"
+        launcher:spanY="1" />
+    
+    <appwidget
+        launcher:className="jp.co.evangelion.locationreceiver.LocationReceiverProvider"
+        launcher:packageName="jp.co.evangelion.locationreceiver"
+        launcher:screen="4"
+        launcher:x="2"
+        launcher:y="3"
+        launcher:spanX="2"
+        launcher:spanY="1" />
+    
+    <favorite
+        launcher:className="com.nttdocomo.android.docomo_market.Docomo_market"
+        launcher:packageName="com.nttdocomo.android.docomo_market"
+        launcher:screen="4"
+        launcher:x="0"
+        launcher:y="4" />
+    
+    <favorite
+        launcher:className="com.nttdocomo.android.store.WebActivity"
+        launcher:packageName="com.nttdocomo.android.store"
+        launcher:screen="4"
+        launcher:x="1"
+        launcher:y="4" />
+    
+    <favorite
+        launcher:className="com.android.vending.AssetBrowserActivity"
+        launcher:packageName="com.android.vending"
+        launcher:screen="4"
+        launcher:x="2"
+        launcher:y="4" />
+    
+    <favorite
+        launcher:className="jp.co.evangelion.evadecomailpicture.MainActivity"
+        launcher:packageName="jp.co.evangelion.evadecomailpicture"
+        launcher:screen="4"
+        launcher:x="3"
+        launcher:y="4" />
+    
+    <appwidget
+        launcher:className="com.google.android.googlequicksearchbox.SearchWidgetProvider"
+        launcher:packageName="com.google.android.googlequicksearchbox"
+        launcher:screen="2"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="1" />
+</favorites>
