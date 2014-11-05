@@ -768,7 +768,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
                 int deltaX = (int) (mLastMotionX - x);
                 mLastMotionX = x;
                 scrollBy(deltaX, 0);
-                mScreenSelector.mPa(getCurrentScreen(), deltaX);
+                mScreenSelector.mPa(getCurrentScreen(), (float)deltaX);
                 mLauncher.getDesktopIndicator().indicate(Mpb(getScrollX(), getChildCount()*getWidth()));
             }
             break;

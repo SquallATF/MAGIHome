@@ -206,6 +206,7 @@ public class CustomScroller {
                 mCurrY = mStartY + Math.round(x * mDeltaY);
                 if ((mCurrX == mFinalX) && (mCurrY == mFinalY)) {
                     mFinished = true;
+                    mpf();
                 }
                 break;
             case FLING_MODE:

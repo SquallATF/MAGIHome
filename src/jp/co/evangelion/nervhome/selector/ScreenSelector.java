@@ -33,21 +33,21 @@ public class ScreenSelector extends GLSurfaceView {
 	public float fPg;
 	public int fPh;
 	protected C045c fi;
-	public InClass6 fPj;
+	public AutoRotateTask fPj;
 	private long fpk;
 	private boolean fpl;
 	private boolean fpm;
-	
+
 	public ScreenSelector(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setEGLContextClientVersion(2);
 		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-		setRenderer(createRenderer(new C138j(){
+		setRenderer(createRenderer(new C138j() {
 			@Override
 			public void mPa() {
-				 Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY);
-				 fc.fPp = C043d.MPa(getResources());
-				
+				Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY);
+				fc.fPp = C043d.MPa(getResources());
+
 			}
 
 			@Override
@@ -55,32 +55,33 @@ public class ScreenSelector extends GLSurfaceView {
 				((C043d) fc.fPp).mPa(p1, p2);
 				fd.mPz();
 				if (fi == null) {
-					post(new Runnable(){
+					post(new Runnable() {
 
 						@Override
 						public void run() {
 							fi = new C045c(getContext());
-							((ViewGroup)getParent()).addView(fi);
+							((ViewGroup) getParent()).addView(fi);
 						}
-						
+
 					});
 				}
 				fpl = true;
 			}
-			
+
 		}));
 		setRenderMode(RENDERMODE_WHEN_DIRTY);
 		getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		fPb = Type.HOME;
 	}
 
-	static int Md(int i) {
+	int md(int i) {
 		return (i + 7) % 7;
 	}
 
 	public void mPa(int screen, float f) {
 		final long sleep = 41;
-		if (!fpl) return;
+		if (!fpl)
+			return;
 		if (fPg == 0) {
 			fPg = -f;
 			if (fPb == Type.HOME)
@@ -89,7 +90,7 @@ public class ScreenSelector extends GLSurfaceView {
 		} else {
 			fPg = -f + fPg;
 		}
-		float f2 = ((C043d) fc.fPp).mPa(screen, 0.07F * fPg, fPb);
+		float f2 = ((C043d) fc.fPp).mPa(screen, 0.07f * fPg, fPb);
 		long l = SystemClock.currentThreadTimeMillis() - fpk;
 		if (l < sleep) {
 			SystemClock.sleep(sleep - l);
@@ -101,37 +102,40 @@ public class ScreenSelector extends GLSurfaceView {
 		}
 	}
 
-	public void mPa(int i, int j) {
-		if (!fpl) {
-			class InClass2 implements Runnable {
-				int fa;
-				int fb;
-				InClass2(int i, int j) {
-					fa = i;
-					fb = j;
-				}
-				@Override
-				public void run() {
-					mPa(fa, fb);
+	public void mPa(final int i, View view) {
+		final Bitmap bitmap = C142f.MPa(view);
+		queueEvent(new Runnable() {
+
+			@Override
+			public void run() {
+				C043d c043d = (C043d) fc.fPp;
+				if (c043d != null) {
+					c043d.mPa(i, bitmap);
 				}
 			}
-			postDelayed(new InClass2(i, j), 500);
-		} else {
-			class InClass3 implements C032a {
-				int fa;
 
-				InClass3(int i) {
-					fa = i;
+		});
+	}
+
+	public void mPa(final int i, final int j) {
+		if (!fpl) {
+			postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mPa(i, j);
 				}
+			}, 500);
+		} else {
+			((C043d) fc.fPp).mPa(i, j, 0.07f * fPg, fPb, new C032a() {
 
 				@Override
 				public void mPa() {
 					fPg = 0;
-					if(fPb == Type.HOME && fd != null) {
+					if (fPb == Type.HOME && fd != null) {
 						C148b c148b = fd;
-						c148b.mPe(Md(fa));
+						c148b.mPe(md(j));
 					}
-					
+
 				}
 
 				@Override
@@ -141,30 +145,9 @@ public class ScreenSelector extends GLSurfaceView {
 					requestRender();
 					return true;
 				}
-				
-			}
-			((C043d)fc.fPp).mPa(i, j, 0.07F * fPg, fPb, new InClass3(j));			
-		}
-	}
 
-	public void mPa(int i, View view) {
-		class MyRunnable implements Runnable {
-			int fa;
-			Bitmap fb;
-			MyRunnable(int i, Bitmap bitmap) {
-				fa = i;
-				fb = bitmap;
-			}
-
-			@Override
-			public void run() {
-				C043d c043d = (C043d) fc.fPp;
-				if(c043d != null) {
-					c043d.mPa(fa, fb);
-				}
-			}			
+			});
 		}
-		queueEvent(new MyRunnable(i, C142f.MPa(view)));
 	}
 
 	public void mPa(C148b c148b) {
@@ -180,11 +163,11 @@ public class ScreenSelector extends GLSurfaceView {
 	}
 
 	public void mPa(int i) {
-		if(fPb == Type.PREVIEW) {
+		if (fPb == Type.PREVIEW) {
 			i = fPh;
 		}
-		mpa(i,fPb == Type.PREVIEW);
-		((C043d)fc.fPp).mPa(i, 0.0F, fPb);
+		mpa(i, fPb == Type.PREVIEW);
+		((C043d) fc.fPp).mPa(i, 0, fPb);
 		requestRender();
 	}
 
@@ -193,58 +176,52 @@ public class ScreenSelector extends GLSurfaceView {
 			fpm = false;
 			mpa(screen, true);
 			fPh = screen;
-			((C043d)fc.fPp).mPa(screen, new C032a(){
+			((C043d) fc.fPp).mPa(screen, new C032a() {
 
 				@Override
 				public void mPa() {
-					 fi.mPa(0.0F);
-					 autoRotate(fPh);
-					 fPb = Type.PREVIEW;
+					fi.mPa(0);
+					autoRotate(fPh);
+					fPb = Type.PREVIEW;
 
 				}
 
 				@Override
 				public boolean mPa(float paramFloat) {
 					requestRender();
-		            return true;
+					return true;
 				}
-				
+
 			});
 		}
-		
+
 	}
 
-	public void mPc(int screen) {
+	public void mPc(final int screen) {
 		if (fPb != Type.HOME) {
 			mpc();
 			fPb = Type.HOME;
 			fi.mPa();
-			class InClass5 implements C032a {
-				int fa;
-				
-				 InClass5(int i) {
-					 fa = i;
-				 }
+			((C043d) fc.fPp).mPb(screen, new C032a() {
 
 				@Override
 				public void mPa() {
-					mPa(fa);
+					mPa(screen);
 				}
 
 				@Override
 				public boolean mPa(float paramFloat) {
 					requestRender();
-		            return true;
+					return true;
 				}
-				
-			}
-			((C043d)fc.fPp).mPb(screen, new InClass5(screen));
+
+			});
 		}
 	}
 
 	protected C139i createRenderer(C138j c138j) {
 		fc = new C139i(getContext(), c138j);
-        return fc;
+		return fc;
 	}
 
 	private void mpa(int i, boolean flag) {
@@ -256,19 +233,19 @@ public class ScreenSelector extends GLSurfaceView {
 
 	private void mpb() {
 		if (mpd()) {
-			((C043d)fc.fPp).fPg = false;
+			((C043d) fc.fPp).fPg = false;
 		}
 	}
 
 	private void mpc() {
-		if(mpd()) {
+		if (mpd()) {
 			mpb();
 			fPj.cancel(true);
 		}
 	}
 
 	private boolean mpd() {
-		return  ((C043d)fc.fPp).fPg;
+		return ((C043d) fc.fPp).fPg;
 	}
 
 	void autoRotate(int i) {
@@ -276,12 +253,9 @@ public class ScreenSelector extends GLSurfaceView {
 			Log.e(TAG, "autoRotate - in progress");
 			return;
 		} else {
-			((C043d)fc.fPp).fPg = true;
-            fPj = new InClass6();
-            InClass6 inclass6 = fPj;
-            Integer ainteger[] = new Integer[1];
-            ainteger[0] = Integer.valueOf(i);
-            inclass6.execute(ainteger);
+			((C043d) fc.fPp).fPg = true;
+			fPj = new AutoRotateTask();
+			fPj.execute(i);
 		}
 	}
 
@@ -322,14 +296,16 @@ public class ScreenSelector extends GLSurfaceView {
 				if (mpd()) {
 					mpb();
 				} else {
-					if (fPb == Type.PREVIEW && Math.abs(fPg) <= 4 && fi.mPa(f, event.getY())) {
+					if (fPb == Type.PREVIEW && Math.abs(fPg) <= 4
+							&& fi.mPa(f, event.getY())) {
 						fe.mPc(fPh);
 					} else {
 						int i = fPh;
 						int j = fPh;
-						int k = Math.abs(fPg) > 200F ? (int)Math.signum(-fPg):0;
+						int k = Math.abs(fPg) > 200F ? (int) Math.signum(-fPg)
+								: 0;
 						int l = (7 + (k + j)) % 7;
-						mPa(i,l);
+						mPa(i, l);
 						fPh = l;
 					}
 				}
@@ -357,20 +333,20 @@ public class ScreenSelector extends GLSurfaceView {
 		super.surfaceDestroyed(holder);
 	}
 
-	private class InClass6 extends AsyncTask<Integer, Float, Integer> {
+	private class AutoRotateTask extends AsyncTask<Integer, Float, Integer> {
 
 		@Override
 		protected Integer doInBackground(Integer... arg0) {
 			int j;
 			int i = arg0[0];
-			while(mpd()) {
-				j = Md(i-1);
+			while (mpd()) {
+				j = md(i - 1);
 				((C043d) fc.fPp).mPa(i, j, 0, Type.PREVIEW, new C032a() {
 
 					@Override
 					public void mPa() {
-						 SystemClock.sleep(10L);
-						
+						SystemClock.sleep(10L);
+
 					}
 
 					@Override
@@ -380,7 +356,7 @@ public class ScreenSelector extends GLSurfaceView {
 						}
 						return fPb == Type.PREVIEW;
 					}
-					
+
 				});
 				i = j;
 			}
