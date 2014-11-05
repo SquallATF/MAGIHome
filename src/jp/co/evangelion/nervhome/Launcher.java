@@ -906,7 +906,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         mPq();
     }
 
-    private void mPq() {
+    public void mPq() {
     	mWorkspace.mPd(mWorkspace.getCurrentScreen());
 	}
 
@@ -985,7 +985,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         if (bitmap != null) {
             icon = new FastBitmapDrawable(Utilities.createBitmapThumbnail(bitmap, context));
             filtered = true;
-            customIcon = true;
         } else {
             Parcelable extra = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE);
             if (extra != null && extra instanceof ShortcutIconResource) {
@@ -1757,17 +1756,17 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         for (int i = 0; i < count; i++) {
             ((ViewGroup) workspace.getChildAt(i)).removeAllViewsInLayout();
         }
-//        if (DEBUG_USER_INTERFACE) {
-//            android.widget.Button finishButton = new android.widget.Button(this);
-//            finishButton.setText("Finish");
-//            workspace.addInScreen(finishButton, 1, 0, 0, 1, 1);
-//
-//            finishButton.setOnClickListener(new android.widget.Button.OnClickListener() {
-//                public void onClick(View v) {
-//                    finish();
-//                }
-//            });
-//        }
+        if (DEBUG_USER_INTERFACE) {
+            android.widget.Button finishButton = new android.widget.Button(this);
+            finishButton.setText("Finish");
+            workspace.addInScreen(finishButton, 1, 0, 0, 1, 1);
+
+            finishButton.setOnClickListener(new android.widget.Button.OnClickListener() {
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
 
         // Flag any old binder to terminate early
         if (mBinder != null) {
@@ -1971,6 +1970,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             startActivity(intent);
+            mWorkspace.setCurrentScreen(mWorkspace.getCurrentScreen());
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
         } catch (SecurityException e) {
@@ -2071,7 +2071,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
             return true;
         }
 
-        if (mWorkspace.allowLongPress() && !mBlockDesktop) {
+        if (mWorkspace.allowLongPress()) {
             if (cellInfo.cell == null) {
                 if (cellInfo.valid) {
                     // User long pressed on empty space
@@ -2311,7 +2311,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
          * Handle the action clicked in the "Add to home" dialog.
          */
         public void onClick(DialogInterface dialog, int which) {
-            Resources res = getResources();
             cleanup();
 
             switch (which) {
@@ -2919,16 +2918,16 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		case BIND_DEFAULT:
 			dismissPreviews();
 			if (!mWorkspace.isDefaultScreenShowing() && mWorkspace.mPg()) {
-				mWorkspace.moveToDefaultScreen();
+				mWorkspace.moveToDefaultScreen0();
 			}
 			break;
 		case BIND_HOME_PREVIEWS:
         	if (!mWorkspace.isDefaultScreenShowing()) {
         		dismissPreviews();
-                mWorkspace.moveToDefaultScreen();
+                mWorkspace.moveToDefaultScreen0();
             }else{
             	if(!showingPreviews){
-            		showPreviews(mHandleView, 0, mWorkspace.mHomeScreens);
+            		showPreviews(mHandleView, 0, Workspace.mHomeScreens);
             	}else{
             		dismissPreviews();
             	}
@@ -2938,7 +2937,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         	if(!showingPreviews){
         		if(isAllAppsVisible())
         			closeDrawer();
-        		showPreviews(mHandleView, 0, mWorkspace.mHomeScreens);
+        		showPreviews(mHandleView, 0, Workspace.mHomeScreens);
         	}else{
         		dismissPreviews();
         	}
@@ -2958,7 +2957,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		case BIND_HOME_NOTIFICATIONS:
         	if (!mWorkspace.isDefaultScreenShowing()) {
         		dismissPreviews();
-                mWorkspace.moveToDefaultScreen();
+                mWorkspace.moveToDefaultScreen0();
             }else{
     			dismissPreviews();
     			showNotifications();
@@ -3012,16 +3011,32 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		long appInfoId = data.getLongExtra(CustomShirtcutActivity.EXTRA_APPLICATIONINFO, 0);
 		ApplicationInfo info = LauncherModel.loadApplicationInfoById(this, appInfoId);
 		if (info != null) {
-			Bitmap bitmap = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON);
-
 	        Drawable icon = null;
 	        boolean customIcon = false;
 	        ShortcutIconResource iconResource = null;
+            info.itemType = LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT;
+			if (data.getBooleanExtra("origin_customed", false)) {
+				if(CustomShirtcutActivity.ACTION_LAUNCHERACTION.equals(info.intent.getAction())) {
+					final int id = LauncherActions.getIconResourceId(info.intent.getIntExtra(LauncherActions.DefaultLauncherAction.EXTRA_BINDINGVALUE, 0));
+					icon = getResources().getDrawable(id);
+				} else {
+					try {
+						icon = getPackageManager().getActivityIcon(info.intent);
+						info.itemType = LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
+					} catch (NameNotFoundException e){
+						e.printStackTrace();
+					}
+				}
+			} else {
+				Bitmap bitmap = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON);
+				if (bitmap != null) {
+		            icon = new FastBitmapDrawable(Utilities.createBitmapThumbnail(bitmap, this));
+		            customIcon = true;
+				}
+				
+			}
 
-	        if (bitmap != null) {
-	            icon = new FastBitmapDrawable(Utilities.createBitmapThumbnail(bitmap, this));
-	            customIcon = true;
-	        } else {
+	        if (icon == null) {
 	            Parcelable extra = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE);
 	            if (extra != null && extra instanceof ShortcutIconResource) {
 	                try {
@@ -3042,7 +3057,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		        info.customIcon = customIcon;
 		        info.iconResource = iconResource;
 	        }
-            info.itemType = LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT;
 			info.title = data.getStringExtra(Intent.EXTRA_SHORTCUT_NAME);
 			info.intent = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_INTENT);
 			LauncherModel.updateItemInDatabase(this, info);
@@ -3085,7 +3099,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 	}
     private void updateCountersForPackage(String packageName, int counter, int color) {
         if (packageName != null && packageName.length() > 0) {
-            mWorkspace.updateShortcutsForPackage(packageName);
+            mWorkspace.updateCountersForPackage(packageName,counter, color);
             //ADW: Update ActionButtons icons
             updateCounters(mHandleView, packageName, counter, color);
             updateCounters(mLAB, packageName, counter, color);

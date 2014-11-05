@@ -122,8 +122,14 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
     //ADW: port from donut wallpaper drawing
     private Paint mPaint;
 
+    //ADW: sense zoom constants
+	private static final int SENSE_OPENING = 1;
+	private static final int SENSE_CLOSING = 2;
+	private static final int SENSE_OPEN = 3;
+	private static final int SENSE_CLOSED = 4;
     //ADW: sense zoom variables
 	private boolean mSensemode=false;
+	private int mStatus=SENSE_CLOSED;
 	private final int mAnimationDuration=400;
 
 	//Wysie: Multitouch controller
@@ -178,7 +184,8 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
      * Initializes various states for this workspace.
      */
     private void initWorkspace() {
-        mScroller = new CustomScroller(getContext(), new ElasticInterpolator(5f));
+        mScroller = new CustomScroller(getContext(), new ElasticInterpolator(0f));
+        mScroller.setInterfacel(this);
         mCurrentScreen = mDefaultScreen;
         Launcher.setScreen(mCurrentScreen);
         mPaint=new Paint();
@@ -473,8 +480,9 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
             getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
         }
         if (mFirstLayout) {
-            scrollTo(mCurrentScreen * width, 0);
-            mScroller.startScroll(0, 0, getCurrentScreen() * width, 0, 0);
+        	final int currentScreen = getCurrentScreen();
+            scrollTo(currentScreen * width, 0);
+            mScroller.startScroll(0, 0, currentScreen * width, 0, 0);
             mFirstLayout = false;
         }
     }
@@ -496,7 +504,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
             if (child.getVisibility() != View.GONE) {
             	int j3 = i - j2;
             	if(half < Math.abs(j3)) {
-            		if(j2 < 0)
+            		if(j3 < 0)
             			j3 += count;
             		else
             			j3 -= count;
@@ -987,6 +995,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         model.addDesktopItem(info);
         LauncherModel.addOrMoveItemInDatabase(mLauncher, info,
                 LauncherSettings.Favorites.CONTAINER_DESKTOP, mCurrentScreen, lp.cellX, lp.cellY);
+        mLauncher.mPq();
     }
 
     /**
@@ -1107,7 +1116,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         clearVacantCache();
         flagl = true;
         mPc(false);
-        mScreenSelector.mPa(getCurrentScreen(), 0F);
+        mScreenSelector.mPa(getCurrentScreen(), 0f);
         post(new Runnable(){
 
 			@Override
@@ -1123,7 +1132,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         clearVacantCache();
         flagl = true;
         mPc(false);
-        mScreenSelector.mPa(getCurrentScreen(), 0F);
+        mScreenSelector.mPa(getCurrentScreen(), 0f);
         post(new Runnable(){
 
 			@Override
@@ -1377,6 +1386,18 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         }
     }
 
+    void moveToDefaultScreen0() {
+    	mPc(false);
+    	post(new Runnable(){
+
+			@Override
+			public void run() {
+				moveToDefaultScreen();
+			}
+    		
+    	});
+    }
+
     void moveToDefaultScreen() {
         snapToScreen(mDefaultScreen - mpi(mCurrentScreen) + mCurrentScreen, true);
         getChildAt(mDefaultScreen).requestFocus();
@@ -1508,6 +1529,33 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
     	unbindWidgetScrollable();
 	}
 
+    void updateCountersForPackage(String packageName,int counter, int color) {
+        final int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+            final CellLayout layout = (CellLayout) getChildAt(i);
+            int childCount = layout.getChildCount();
+            for (int j = 0; j < childCount; j++) {
+                final View view = layout.getChildAt(j);
+                Object tag = view.getTag();
+                if (tag instanceof ApplicationInfo) {
+                    ApplicationInfo info = (ApplicationInfo) tag;
+                    // We need to check for ACTION_MAIN otherwise getComponent() might
+                    // return null for some shortcuts (for instance, for shortcuts to
+                    // web pages.)
+                    final Intent intent = info.intent;
+                    final ComponentName name = intent.getComponent();
+                    if ((info.itemType==LauncherSettings.Favorites.ITEM_TYPE_APPLICATION||
+                            info.itemType==LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT) &&
+                        Intent.ACTION_MAIN.equals(intent.getAction()) && name != null &&
+                        packageName.equals(name.getPackageName())) {
+                        view.invalidate();
+                        Launcher.getModel().updateCounterDesktopItem(info, counter, color);
+                    }
+                }
+            }
+        }
+    }
+
 	public void setSelector(ScreenSelector  screenselector) {
 		mScreenSelector = screenselector;
 		screenselector.mPa(this);
@@ -1570,9 +1618,9 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
 		final int visibility = b ? View.VISIBLE: View.INVISIBLE;
 		final int count = getChildCount();
 		for(int i = 0;i< count; i++) {
-			final View v = getChildAt(i);
-			if(v!=null&& v.getVisibility() != visibility)
-				v.setVisibility(visibility);
+			final View screan = getChildAt(i);
+			if(screan!=null&& screan.getVisibility() != visibility)
+				screan.setVisibility(visibility);
 		}
 		flagJ = !b;
 	}
@@ -1601,7 +1649,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
 	}
 
 	public boolean mPg() {
-		return mTouchState == 0 && mScroller.isFinished() && !flagL && !mPf();
+		return mTouchState == TOUCH_STATE_REST && mScroller.isFinished() && !flagL && !mPf();
 	}
 
 	public void mPh() {
