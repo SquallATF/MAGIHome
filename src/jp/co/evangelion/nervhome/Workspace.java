@@ -969,7 +969,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
                 // Came from all apps -- make a copy
                 info = new ApplicationInfo((ApplicationInfo) info);
             }
-            view = mLauncher.createShortcut(R.layout.application, cellLayout,
+            view = mLauncher.createShortcut(R.layout.application2, cellLayout,
                     (ApplicationInfo) info);
             break;
         case LauncherSettings.Favorites.ITEM_TYPE_USER_FOLDER:
@@ -1308,7 +1308,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
                     {
                     	tagInfo.assignFrom(info);
 
-                    	View newview = mLauncher.createShortcut(R.layout.application, layout, tagInfo);
+                    	View newview = mLauncher.createShortcut(R.layout.application2, layout, tagInfo);
                     	layout.removeView(view);
                     	addInScreen(newview, info.screen, info.cellX, info.cellY, info.spanX,
                     			info.spanY, false);
@@ -1346,7 +1346,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
                             info.icon = Utilities.createIconThumbnail(icon, mLauncher);
                             info.filtered = true;
                             if (view instanceof ScreenItemView)
-                            	((ScreenItemView) view).mPa(icon);
+                            	((ScreenItemView) view).setIcon(icon);
                             else if (view instanceof TextView)
                             ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null,
                                     info.icon, null, null);

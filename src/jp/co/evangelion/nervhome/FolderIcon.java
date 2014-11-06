@@ -59,10 +59,8 @@ public class FolderIcon extends ScreenItemView implements DropTarget {
         d = Utilities.createIconThumbnail(d, launcher);
         icon.mCloseIcon = d;
         icon.mOpenIcon = resources.getDrawable(R.drawable.ic_launcher_folder_open);*/
-        //icon.setCompoundDrawablesWithIntrinsicBounds(null, dclosed, null, null);
-        icon.mPa(dclosed);
-        //icon.setText(folderInfo.title);
-        icon.mPa(folderInfo.title);
+        icon.setIcon(dclosed);
+        icon.setText(folderInfo.title);
         icon.setTag(folderInfo);
         icon.setOnClickListener(launcher);
         icon.mInfo = folderInfo;
@@ -93,8 +91,7 @@ public class FolderIcon extends ScreenItemView implements DropTarget {
 
     public void onDragEnter(DragSource source, int x, int y, int xOffset, int yOffset,
             Object dragInfo) {
-        //setCompoundDrawablesWithIntrinsicBounds(null, mOpenIcon, null, null);
-    	mPa(mOpenIcon);
+    	setIcon(mOpenIcon);
     }
 
     public void onDragOver(DragSource source, int x, int y, int xOffset, int yOffset,
@@ -103,7 +100,6 @@ public class FolderIcon extends ScreenItemView implements DropTarget {
 
     public void onDragExit(DragSource source, int x, int y, int xOffset, int yOffset,
             Object dragInfo) {
-        //setCompoundDrawablesWithIntrinsicBounds(null, mCloseIcon, null, null);
-    	mPa(mCloseIcon);
+    	setIcon(mCloseIcon);
     }
 }

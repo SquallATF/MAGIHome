@@ -12,52 +12,52 @@ import android.view.View;
 
 public class ScreenItemView extends View {
 
-	  private static final int Fpa = Color.rgb(255, 173, 0);
-	  private Paint fpb = new Paint();
-	  private String fpc;
-	  private int fpd;
-	  private Drawable fpe;
-	  private Rect fpf;
-	
+	private static final int mColor = Color.rgb(255, 173, 0);
+	private Paint mPaint = new Paint();
+	private String mTitle;
+	private int mEnd;
+	private Drawable mIcon;
+	private Rect mBounds;
+
 	public ScreenItemView(Context context) {
 		this(context, null);
-    }
+	}
 
-    public ScreenItemView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+	public ScreenItemView(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
+	}
 
-    public ScreenItemView(Context context, AttributeSet attrs, int defStyleAttr) {
-    	super(context, attrs, defStyleAttr);
-        fpb.setAntiAlias(true);
-        fpb.setColor(Fpa);
-        fpb.setTextSize(13F);
-    }
-    
-    public void draw(Canvas canvas) {
-    	super.draw(canvas);
-    	canvas.drawText(fpc, 0, fpd, 26.0F, 33.0F, fpb);
-    	fpe.setBounds(fpf);
-    	fpe.draw(canvas);
-    }
-    
-    //setTypeface
-    public final void mPa(Typeface typeface) {
-    	fpb.setTypeface(typeface);
-    }
-    
-    public final void mPa(Drawable drawable) {
-    	if (drawable != null) {
-    		fpe = drawable;
-    		fpf = new Rect(42, 45, 138, 141);
-    	}
-    }
-    
-    public final void mPa(CharSequence charSequence) {
-    	if (charSequence != null) {
-            fpc = charSequence.toString();
-            fpd = fpb.breakText(fpc, true, 128.0F, null);    		
-    	}
-    }
+	public ScreenItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+		mPaint.setAntiAlias(true);
+		mPaint.setColor(mColor);
+		mPaint.setTextSize(13f);
+	}
+
+	@Override
+	public void draw(Canvas canvas) {
+		super.draw(canvas);
+		canvas.drawText(mTitle, 0, mEnd, 26f, 33f, mPaint);
+		mIcon.setBounds(mBounds);
+		mIcon.draw(canvas);
+	}
+
+	public void setTypeface(Typeface typeface) {
+		mPaint.setTypeface(typeface);
+	}
+
+	public void setIcon(Drawable icon) {
+		if (icon != null) {
+			mIcon = icon;
+			mBounds = new Rect(42, 45, 138, 141);
+		}
+	}
+
+	public void setText(CharSequence charSequence) {
+		if (charSequence != null) {
+			mTitle = charSequence.toString();
+			mEnd = mPaint.breakText(mTitle, true, 128f, null);
+		}
+	}
 
 }

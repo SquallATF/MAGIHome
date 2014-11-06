@@ -19,14 +19,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class C123c extends BaseAdapter {
+public class MagiWidgetsAdapter extends BaseAdapter {
 	private static String[] Fpa = null;
 	private LayoutInflater fpb;
 	private PackageManager fpc;
 	private List<AppWidgetProviderInfo> fpd;
 	private Rect fpe = new Rect(0, 0, 96, 96);
 
-	public C123c(Context context, AppWidgetManager appWidgetManager) {
+	public MagiWidgetsAdapter(Context context, AppWidgetManager appWidgetManager) {
 		if (Fpa == null) {
 			Fpa = context.getResources().getStringArray(
 					R.array.maagi_widgets_values);

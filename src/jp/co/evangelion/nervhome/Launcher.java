@@ -34,7 +34,7 @@ import java.util.Locale;
 import mobi.intuitit.android.content.LauncherIntent;
 import mobi.intuitit.android.content.LauncherMetadata;
 import jp.co.evangelion.nervhome.ActionButton.SwipeListener;
-import jp.co.evangelion.nervhome.extended.C123c;
+import jp.co.evangelion.nervhome.extended.MagiWidgetsAdapter;
 import jp.co.evangelion.nervhome.extended.QuickActionWindow;
 import jp.co.evangelion.nervhome.extended.ScreenItemView;
 import jp.co.evangelion.nervhome.extended.drawer.MagiDrawer;
@@ -183,8 +183,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
     private static final String RUNTIME_STATE_PENDING_FOLDER_RENAME = "launcher.rename_folder";
     // Type: long
     private static final String RUNTIME_STATE_PENDING_FOLDER_RENAME_ID = "launcher.rename_folder_id";
-    // Type: boolean
-    private static final String RUNTIME_STATE_DOCKBAR = "launcher.dockbar";
 
 	private static final LauncherModel sModel = new LauncherModel();
 	
@@ -822,12 +820,9 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
     View createShortcut(int layoutResId, ViewGroup parent, ApplicationInfo info) {
     	ScreenItemView favorite = (ScreenItemView) mInflater.inflate(layoutResId, parent, false);
 
-    	//favorite.setTypeface(themeFont);
-    	favorite.mPa(themeFont);
-        //favorite.setText(info.title);
-        favorite.mPa(info.title);
-        //favorite.setCompoundDrawablesWithIntrinsicBounds(null, info.icon, null, null);
-        favorite.mPa(info.icon);
+    	favorite.setTypeface(themeFont);
+        favorite.setText(info.title);
+        favorite.setIcon(info.icon);
         favorite.setTag(info);
         favorite.setOnClickListener(this);
         return favorite;
@@ -1274,6 +1269,9 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 
         final SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        searchManager.startSearch(initialQuery, selectInitialQuery, getComponentName(),
+            appSearchData, globalSearch);
     }
 
     /**
@@ -1391,7 +1389,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
     void addAppWidget(final Intent data) {
         // TODO: catch bad widget exception when sent
         int appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-            AppWidgetProviderInfo appWidget = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
+        AppWidgetProviderInfo appWidget = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
 
         try
         {
@@ -1488,7 +1486,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         // Create the view
         FolderIcon newFolder = FolderIcon.fromXml(R.layout.folder_icon, this,
                 (ViewGroup) mWorkspace.getChildAt(mWorkspace.getCurrentScreen()), folderInfo);
-        if(themeFont!=null)((ScreenItemView)newFolder).mPa(themeFont);
+        if(themeFont!=null)((ScreenItemView)newFolder).setTypeface(themeFont);
         mWorkspace.addInCurrentScreen(newFolder,
                 cellInfo.cellX, cellInfo.cellY, 1, 1, insertAtFirst);
     }
@@ -1815,7 +1813,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		                    final FolderIcon newFolder = FolderIcon.fromXml(R.layout.folder_icon, this,
 		                            (ViewGroup) workspace.getChildAt(workspace.getCurrentScreen()),
 		                            (UserFolderInfo) item);
-		                    if(themeFont!=null)((ScreenItemView)newFolder).mPa(themeFont);
+		                    if(themeFont!=null)((ScreenItemView)newFolder).setTypeface(themeFont);
 		                    workspace.addInScreen(newFolder, item.screen, item.cellX, item.cellY, 1, 1,
 		                            !desktopLocked);
 		                    break;
@@ -1824,7 +1822,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		                            R.layout.live_folder_icon, this,
 		                            (ViewGroup) workspace.getChildAt(workspace.getCurrentScreen()),
 		                            (LiveFolderInfo) item);
-		                    if(themeFont!=null)((ScreenItemView)newLiveFolder).mPa(themeFont);
+		                    if(themeFont!=null)((ScreenItemView)newLiveFolder).setTypeface(themeFont);
 		                    workspace.addInScreen(newLiveFolder, item.screen, item.cellX, item.cellY, 1, 1,
 		                            !desktopLocked);
 		                    break;
@@ -2039,7 +2037,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         	mWorkspace.addInScreen(openFolder, folderInfo.screen, 0, 0, mWorkspace.currentDesktopColumns(), mWorkspace.currentDesktopRows());
         }
         openFolder.onOpen();
-        if (Z != null) {
+        if (Z == null) {
         	Z  = new ArrayList<Folder>();
         }
         Z.add(openFolder);
@@ -2163,21 +2161,21 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
     private void pickShortcut(int requestCode, int title) {
         Bundle bundle = new Bundle();
 
-//        ArrayList<String> shortcutNames = new ArrayList<String>();
-//        shortcutNames.add(getString(R.string.group_applications));
-//        bundle.putStringArrayList(Intent.EXTRA_SHORTCUT_NAME, shortcutNames);
-//
-//        ArrayList<ShortcutIconResource> shortcutIcons = new ArrayList<ShortcutIconResource>();
-//        shortcutIcons.add(ShortcutIconResource.fromContext(Launcher.this,
-//                        R.drawable.ic_launcher_application));
-//        bundle.putParcelableArrayList(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcons);
-//
-//        Intent pickIntent = new Intent(Intent.ACTION_PICK_ACTIVITY);
-//        pickIntent.putExtra(Intent.EXTRA_INTENT, new Intent(Intent.ACTION_CREATE_SHORTCUT));
-//        pickIntent.putExtra(Intent.EXTRA_TITLE, getText(title));
-//        pickIntent.putExtras(bundle);
-//
-//        startActivityForResult(pickIntent, requestCode);
+        ArrayList<String> shortcutNames = new ArrayList<String>();
+        shortcutNames.add(getString(R.string.group_applications));
+        bundle.putStringArrayList(Intent.EXTRA_SHORTCUT_NAME, shortcutNames);
+
+        ArrayList<ShortcutIconResource> shortcutIcons = new ArrayList<ShortcutIconResource>();
+        shortcutIcons.add(ShortcutIconResource.fromContext(Launcher.this,
+                        R.drawable.ic_launcher_application));
+        bundle.putParcelableArrayList(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcons);
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK_ACTIVITY);
+        pickIntent.putExtra(Intent.EXTRA_INTENT, new Intent(Intent.ACTION_CREATE_SHORTCUT));
+        pickIntent.putExtra(Intent.EXTRA_TITLE, getText(title));
+        pickIntent.putExtras(bundle);
+
+        startActivityForResult(pickIntent, requestCode);
     }
 
     private class RenameFolder {
@@ -2237,7 +2235,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
                     final FolderIcon folderIcon = (FolderIcon)
                             mWorkspace.getViewForTag(mFolderInfo);
                     if (folderIcon != null) {
-                        folderIcon.mPa(name);
+                        folderIcon.setText(name);
                         folderIcon.invalidate();
                         getWorkspace().requestLayout();
                     } else {
@@ -2335,18 +2333,21 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
                     break;
                 }
 
-                case AddAdapter.ITEM_ANYCUT: {
+                case AddAdapter.ITEM_MAGIWIDGET: {
                 	AlertDialog.Builder builder = new AlertDialog.Builder(Launcher.this);
                 	builder.setTitle(R.string.group_magi_widgets);
-                	final C123c c123c = new C123c(Launcher.this, mAppWidgetManager);
-                	builder.setAdapter(c123c, new Dialog.OnClickListener(){
+                	final MagiWidgetsAdapter adapter = new MagiWidgetsAdapter(Launcher.this, mAppWidgetManager);
+                	builder.setAdapter(adapter, new Dialog.OnClickListener(){
                 		 @Override
                          public void onClick(DialogInterface dialog, int which) {
-                        	 Intent intent = c123c.mPa(which);
-                        	 int j = mAppWidgetHost.allocateAppWidgetId();
-                        	 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, j);
-                        	 mAppWidgetManager.bindAppWidgetIdIfAllowed(j, intent.getComponent());
-                        	 addAppWidget(intent);
+                        	 Intent intent = adapter.mPa(which);
+                        	 AppWidgetProviderInfo info = (AppWidgetProviderInfo)adapter.getItem(which);
+                        	 int appWidgetId = mAppWidgetHost.allocateAppWidgetId();
+                        	 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                        	 boolean success = mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, intent.getComponent());
+                        	 if (success) {
+                            	 addAppWidget(intent);                        		 
+                        	 }
                          }
                 	 });
                 	builder.show();

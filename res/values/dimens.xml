@@ -17,8 +17,8 @@
     <dimen name="search_widget_inset">19dip</dimen>
     <dimen name="gesture_thumbnail_inset">8dip</dimen>
     <dimen name="gesture_thumbnail_size">64dip</dimen>
-    <dimen name="cell_width">80dip</dimen>
-    <dimen name="cell_height">100dip</dimen>
+    <dimen name="cell_width">90dip</dimen>
+    <dimen name="cell_height">93dip</dimen>
     <dimen name="desktop_paginator_padding">10dip</dimen>
     <dimen name="color_picker_center">90dip</dimen>
     <dimen name="color_picker_radius">30dip</dimen>

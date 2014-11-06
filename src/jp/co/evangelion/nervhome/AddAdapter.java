@@ -39,7 +39,7 @@ public class AddAdapter extends BaseAdapter {
     
     public static final int ITEM_LAUNCHER_ACTION = 0;
     public static final int ITEM_SHORTCUT = 1;
-    public static final int ITEM_ANYCUT = 2;
+    public static final int ITEM_MAGIWIDGET = 2;
     public static final int ITEM_APPWIDGET = 3;
     public static final int ITEM_LIVE_FOLDER = 4;
     public static final int ITEM_WALLPAPER = 5;
@@ -76,7 +76,7 @@ public class AddAdapter extends BaseAdapter {
                 R.drawable.ic_launcher_shortcut, ITEM_SHORTCUT));
 
         mItems.add(new ListItem(res, R.string.group_magi_widgets,
-                R.drawable.magi_widget, ITEM_ANYCUT));
+                R.drawable.magi_widget, ITEM_MAGIWIDGET));
 
         mItems.add(new ListItem(res, R.string.group_widgets,
                 R.drawable.ic_launcher_appwidget, ITEM_APPWIDGET));
