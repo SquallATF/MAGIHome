@@ -22,21 +22,14 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 		OnItemLongClickListener, DragSource, Drawer {
 	
 	private DragController mDragger;
-	//mViewGroug
-	private ViewGroup fpb;
-	//mLauncher
-	private Launcher fpc;
+	private ViewGroup mViewGroug;
+	private Launcher mLauncher;
 	private boolean fpd;
-	//mAdapter
-	private ApplicationsAdapter fpe;
-	//mDataSetObserver
-	private AdapterDataSetObserver fpf;
-	//mViewPager
-	private final ViewPager fpg;
-	//mViewPagerAdapter
-	private final ViewPagerAdapter fph;
-	//mDrawerIndicator
-	private final DrawerIndicator fpi;
+	private ApplicationsAdapter mAdapter;
+	private AdapterDataSetObserver mDataSetObserver;
+	private ViewPager mViewPager;
+	private ViewPagerAdapter mViewPagerAdapter;
+	private DrawerIndicator mDrawerIndicator;
 
 	public MagiDrawer(Context context) {
 		this(context, null);
@@ -46,44 +39,44 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 		super(context, attrs);
 		setOrientation(VERTICAL);
 		setBackgroundColor(Color.BLACK);
-		fpi = new DrawerIndicator(context);
+		mDrawerIndicator = new DrawerIndicator(context);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, 26);
 		lp.topMargin = 6;
-		fpi.setLayoutParams(lp);
-		addView(fpi);
-		fpg = new ViewPager(context);
-		fpg.setOffscreenPageLimit(5);
-		fpg.setOnPageChangeListener(this);
-		fph = new ViewPagerAdapter(context, this, this);
-		fpg.setAdapter(fph);
-		addView(fpg);
+		mDrawerIndicator.setLayoutParams(lp);
+		addView(mDrawerIndicator);
+		mViewPager = new ViewPager(context);
+		mViewPager.setOffscreenPageLimit(5);
+		mViewPager.setOnPageChangeListener(this);
+		mViewPagerAdapter = new ViewPagerAdapter(context, this, this);
+		mViewPager.setAdapter(mViewPagerAdapter);
+		addView(mViewPager);
 	}
 
 	@Override
 	public void setDragger(DragController dragger) {
 		mDragger = dragger;
-		fpb = (ViewGroup)mDragger;
+		mViewGroug = (ViewGroup)mDragger;
 	}
 
 	@Override
 	public void setLauncher(Launcher launcher) {
-		fpc = launcher;
+		mLauncher = launcher;
 
 	}
 
 	@Override
 	public void setAdapter(ApplicationsAdapter adapter) {
-		if (fpe != null) {
-			fpe.unregisterDataSetObserver(fpf);
+		if (mAdapter != null) {
+			mAdapter.unregisterDataSetObserver(mDataSetObserver);
 		}
-		fpe = adapter;
-		if (fpe != null) {
-			fpf = new AdapterDataSetObserver();
-			fpe.registerDataSetObserver(fpf);
-			fph.mPa(ApplicationsAdapter.allItems);
-			fpi.mPb(ApplicationsAdapter.allItems.size() / 20 + 1);
+		mAdapter = adapter;
+		if (mAdapter != null) {
+			mDataSetObserver = new AdapterDataSetObserver();
+			mAdapter.registerDataSetObserver(mDataSetObserver);
+			mViewPagerAdapter.mPa(ApplicationsAdapter.allItems);
+			mDrawerIndicator.mPb(ApplicationsAdapter.allItems.size() / 20 + 1);
 		} else {
-			fpi.mPb(0);
+			mDrawerIndicator.mPb(0);
 		}
 
 	}
@@ -100,7 +93,7 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 		}
 		ApplicationInfo info = new ApplicationInfo((ApplicationInfo)parent.getItemAtPosition(position));
 		mDragger.startDrag(view, this, info, 1);
-		fpc.closeAllApplications();
+		mLauncher.closeAllApplications();
 		return true;
 
 	}
@@ -108,22 +101,22 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 	@Override
 	public void onItemClick(AdapterView<?>  parent, View view, int position, long id) {
 		ApplicationInfo info = (ApplicationInfo)parent.getAdapter().getItem(position);
-		fpc.startActivitySafely(info.intent);
+		mLauncher.startActivitySafely(info.intent);
 	}
 
 	@Override
 	public void open() {
 		if (getParent() == null) {
-			fpb.addView(this);
+			mViewGroug.addView(this);
 		}
-		fpc.mPk();
+		mLauncher.mPk();
 		setVisibility(View.VISIBLE);
-		fph.mPc();
+		mViewPagerAdapter.mPc();
 	}
 
 	@Override
 	public void close() {
-		fpb.removeView(this);		
+		mViewGroug.removeView(this);		
 	}
 
 	@Override
@@ -138,7 +131,7 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 
 	@Override
 	public void onPageSelected(int position) {
-		fpi.mPa(position);
+		mDrawerIndicator.mPa(position);
 		
 	}
 	
@@ -151,7 +144,7 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 				if(fpd) {
 					setVisibility(View.VISIBLE);
 				} else {
-					fpb.removeView(MagiDrawer.this);
+					mViewGroug.removeView(MagiDrawer.this);
 				}
 				
 			}
@@ -163,13 +156,13 @@ public class MagiDrawer extends LinearLayout implements ViewPager.OnPageChangeLi
 
 		@Override
 		public void onChanged() {
-			fph.mPa(ApplicationsAdapter.allItems);
-			int count = fph.getCount();
-			fpi.mPb(count);
+			mViewPagerAdapter.mPa(ApplicationsAdapter.allItems);
+			int count = mViewPagerAdapter.getCount();
+			mDrawerIndicator.mPb(count);
 			if (getParent() != null) {
-				int j = fpg.getCurrentItem();
+				int j = mViewPager.getCurrentItem();
 				if (count <= j && j > 0)
-					fpg.setCurrentItem(j - 1);
+					mViewPager.setCurrentItem(j - 1);
 				invalidate();
 			}
 		}

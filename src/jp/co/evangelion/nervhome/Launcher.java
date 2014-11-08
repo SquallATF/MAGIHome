@@ -925,7 +925,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         CellLayout layout = (CellLayout) mWorkspace.getChildAt(cellInfo.screen);
         Rect rect = AppWidgetHostView.getDefaultPaddingForWidget(this, appWidgetInfo.provider, null);
         final int[] spans = layout.rectToCell(appWidgetInfo.minWidth + rect.left + rect.right, appWidgetInfo.minHeight + rect.top + rect.bottom);
-        if(!findSlot(mAddItemCellInfo, spans, mCellCoordinates[0], mCellCoordinates[1])){
+        if(!findSlot(mAddItemCellInfo, mCellCoordinates, spans[0], spans[1])){
             if(appWidgetId != -1){
             	mAppWidgetHost.deleteAppWidgetId(appWidgetId);
             }
@@ -2341,13 +2341,10 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
                 		 @Override
                          public void onClick(DialogInterface dialog, int which) {
                         	 Intent intent = adapter.mPa(which);
-                        	 AppWidgetProviderInfo info = (AppWidgetProviderInfo)adapter.getItem(which);
                         	 int appWidgetId = mAppWidgetHost.allocateAppWidgetId();
                         	 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                        	 boolean success = mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, intent.getComponent());
-                        	 if (success) {
-                            	 addAppWidget(intent);                        		 
-                        	 }
+                        	 mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, intent.getComponent());
+                        	 addAppWidget(intent); 
                          }
                 	 });
                 	builder.show();

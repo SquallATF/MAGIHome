@@ -40,6 +40,7 @@ public class DrawerIndicator extends View {
 			final Drawable drawable = i == fpe ?
 					mPagerDotSelected : mPagerDotNormal;
 			drawable.setBounds(left, 0, left + 26, 26);
+            drawable.draw(canvas);
 			left += 41;			
 		}
 	}
