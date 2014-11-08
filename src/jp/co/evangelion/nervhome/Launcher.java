@@ -75,6 +75,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -114,7 +115,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
     private static final boolean DEBUG_USER_INTERFACE = false;
 
     private static final int MENU_GROUP_ADD = 1;
-    private static final int MENU_GROUP_CATALOGUE = 2;
     private static final int MENU_GROUP_NORMAL = 2;
 
 
@@ -247,11 +247,11 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 	 * ADW: variables to store actual status of elements
 	 */
 	private boolean allAppsOpen = false;
-	private final boolean allAppsAnimating = false;
+	//private final boolean allAppsAnimating = false;
 	private boolean showingPreviews = false;
 	
 	private DesktopIndicator mDesktopIndicator;
-	private boolean useDrawerCatalogNavigation = false;
+	//private boolean useDrawerCatalogNavigation = false;
 	
 
 
@@ -292,7 +292,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 	///TODO:ADW. Current code fully ready for upto 9
 	//but need to add more drawables for the desktop dots...
 	//or completely redo the desktop dots implementation
-	private final static int MAX_SCREENS=7;
+	//private final static int MAX_SCREENS=7;
 	//ADW: NAVIGATION VALUES FOR THE NEXT/PREV CATALOG ACTIONS
 	private final static int ACTION_CATALOG_PREV=1;
 	private final static int ACTION_CATALOG_NEXT=2;
@@ -313,7 +313,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
 		mAppWidgetHost.startListening();
 
 		if (PROFILE_STARTUP) {
-			android.os.Debug.startMethodTracing("/sdcard/launcher");
+			android.os.Debug.startMethodTracing(Environment.getExternalStorageDirectory().getPath() + "/launcher");
 		}
 
 		mpy();
@@ -440,7 +440,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         mRestoring = false;
     }
 
-    private void setWallpaperDimension() {
+    @SuppressWarnings("deprecation")
+	private void setWallpaperDimension() {
         WallpaperManager wpm = WallpaperManager.getInstance(this);
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -592,7 +593,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         }
         //if(mMessWithPersistence)setPersistent(false);
         if (PROFILE_ROTATE) {
-            android.os.Debug.startMethodTracing("/sdcard/launcher-rotate");
+            android.os.Debug.startMethodTracing(Environment.getExternalStorageDirectory().getPath() + "/launcher-rotate");
         }
         return null;
     }
@@ -1012,7 +1013,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         return info;
     }
 
-    void closeSystemDialogs() {
+    @SuppressWarnings("deprecation")
+	void closeSystemDialogs() {
         getWindow().closeAllPanels();
 
         try {
@@ -1236,7 +1238,7 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         try{
             super.startActivityForResult(intent, requestCode);
         }catch (Exception e){
-            Toast.makeText(this,R.string.activity_not_found,Toast.LENGTH_SHORT);
+            Toast.makeText(this,R.string.activity_not_found,Toast.LENGTH_SHORT).show();;
         }
     }
 
@@ -1511,7 +1513,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         mPq();
     }
 
-    static LiveFolderInfo addLiveFolder(Context context, Intent data,
+    @SuppressWarnings("deprecation")
+	static LiveFolderInfo addLiveFolder(Context context, Intent data,
             CellLayout.CellInfo cellInfo, boolean notify) {
 
         Intent baseIntent = data.getParcelableExtra(LiveFolders.EXTRA_LIVE_FOLDER_BASE_INTENT);
@@ -2119,7 +2122,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
         return (View)mAllAppsGrid;
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DIALOG_CREATE_SHORTCUT:
@@ -2146,13 +2150,15 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
                 break;
         }
     }
-    void showRenameDialog(FolderInfo info) {
+    @SuppressWarnings("deprecation")
+	void showRenameDialog(FolderInfo info) {
         mFolderInfo = info;
         mWaitingForResult = true;
         showDialog(DIALOG_RENAME_FOLDER);
     }
 
-    private void showAddDialog(CellLayout.CellInfo cellInfo) {
+    @SuppressWarnings("deprecation")
+	private void showAddDialog(CellLayout.CellInfo cellInfo) {
         mAddItemCellInfo = cellInfo;
         mWaitingForResult = true;
         showDialog(DIALOG_CREATE_SHORTCUT);
@@ -2247,7 +2253,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
             cleanup();
         }
 
-        private void cleanup() {
+        @SuppressWarnings("deprecation")
+		private void cleanup() {
             mWorkspace.unlock();
             try{
                 dismissDialog(DIALOG_RENAME_FOLDER);
@@ -2296,7 +2303,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
             mWorkspace.unlock();
         }
 
-        private void cleanup() {
+        @SuppressWarnings("deprecation")
+		private void cleanup() {
             mWorkspace.unlock();
             try{
                 dismissDialog(DIALOG_CREATE_SHORTCUT);
@@ -2384,7 +2392,8 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
      * Receives notifications when applications are added/removed.
      */
     private class ApplicationsIntentReceiver extends BroadcastReceiver {
-        @Override
+        @SuppressWarnings("deprecation")
+		@Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (Intent.ACTION_PACKAGE_CHANGED.equals(action)
@@ -2616,109 +2625,6 @@ public class Launcher extends Activity implements View.OnClickListener, OnLongCl
      * ADW: Start custom functions/modifications
      ***************************************************************/
 
-    private void updateAlmostNexusVars(){
-//		allowDrawerAnimations=AlmostNexusSettingsHelper.getDrawerAnimated(Launcher.this);
-//		newPreviews=AlmostNexusSettingsHelper.getNewPreviews(this);
-//		mHomeBinding=AlmostNexusSettingsHelper.getHomeBinding(this);
-//		mSwipedownAction=AlmostNexusSettingsHelper.getSwipeDownActions(this);
-//		mSwipeupAction=AlmostNexusSettingsHelper.getSwipeUpActions(this);
-//		hideStatusBar=AlmostNexusSettingsHelper.getHideStatusbar(this);
-//		showDots=AlmostNexusSettingsHelper.getUIDots(this);
-//		mDockStyle=AlmostNexusSettingsHelper.getmainDockStyle(this);
-//		showDockBar=AlmostNexusSettingsHelper.getUIDockbar(this);
-//		autoCloseDockbar=AlmostNexusSettingsHelper.getUICloseDockbar(this);
-//		autoCloseFolder=AlmostNexusSettingsHelper.getUICloseFolder(this);
-//		hideABBg=AlmostNexusSettingsHelper.getUIABBg(this);
-//		uiHideLabels=AlmostNexusSettingsHelper.getUIHideLabels(this);
-//		if(mWorkspace!=null){
-//			mWorkspace.setSpeed(AlmostNexusSettingsHelper.getDesktopSpeed(this));
-//			mWorkspace.setBounceAmount(AlmostNexusSettingsHelper.getDesktopBounce(this));
-//			mWorkspace.setDefaultScreen(AlmostNexusSettingsHelper.getDefaultScreen(this));
-//			mWorkspace.setWallpaperScroll(AlmostNexusSettingsHelper.getWallpaperScrolling(this));
-//		}
-//		int animationSpeed=AlmostNexusSettingsHelper.getZoomSpeed(this);
-//        if(mAllAppsGrid!=null){
-//        	mAllAppsGrid.setAnimationSpeed(animationSpeed);
-//        }
-//        wallpaperHack=AlmostNexusSettingsHelper.getWallpaperHack(this);
-//        useDrawerCatalogNavigation=AlmostNexusSettingsHelper.getDrawerCatalogsNavigation(this);
-    }
-    /**
-     * ADW: Refresh UI status variables and elements after changing settings.
-     */
-    private void updateAlmostNexusUI(){
-//    	if(mIsEditMode || mIsWidgetEditMode)return;
-//    	updateAlmostNexusVars();
-//		float scale=AlmostNexusSettingsHelper.getuiScaleAB(this);
-//		boolean tint=AlmostNexusSettingsHelper.getUIABTint(this);
-//		int tintcolor=AlmostNexusSettingsHelper.getUIABTintColor(this);
-//		if(scale!=uiScaleAB || tint!=uiABTint|| tintcolor!=uiABTintColor){
-//			uiScaleAB=scale;
-//			uiABTint=tint;
-//			uiABTintColor=tintcolor;
-//			mRAB.updateIcon();
-//			mLAB.updateIcon();
-//			mRAB2.updateIcon();
-//			mLAB2.updateIcon();
-//			mHandleView.updateIcon();
-//		}
-//		if(!showDockBar){
-//			if(mDockBar.isOpen())mDockBar.close();
-//		}
-//    	fullScreen(hideStatusBar);
-//    	if(!mDockBar.isOpen() && !showingPreviews){
-//	    	if(!isAllAppsVisible()){
-//	    		mNextView.setVisibility(showDots?View.VISIBLE:View.GONE);
-//		    	mPreviousView.setVisibility(showDots?View.VISIBLE:View.GONE);
-//	    	}
-//    	}
-//    	switch (mDockStyle) {
-//        case DOCK_STYLE_1:
-//            mRAB.setVisibility(View.GONE);
-//            mLAB.setVisibility(View.GONE);
-//            mRAB2.setVisibility(View.GONE);
-//            mLAB2.setVisibility(View.GONE);
-//            if(!mDockBar.isOpen() && !showingPreviews)mDrawerToolbar.setVisibility(View.VISIBLE);
-//            break;
-//        case DOCK_STYLE_3:
-//            mRAB.setVisibility(View.VISIBLE);
-//            mLAB.setVisibility(View.VISIBLE);
-//            mRAB2.setVisibility(View.GONE);
-//            mLAB2.setVisibility(View.GONE);
-//            if(!mDockBar.isOpen() && !showingPreviews)mDrawerToolbar.setVisibility(View.VISIBLE);
-//            break;
-//        case DOCK_STYLE_5:
-//            mRAB.setVisibility(View.VISIBLE);
-//            mLAB.setVisibility(View.VISIBLE);
-//            mRAB2.setVisibility(View.VISIBLE);
-//            mLAB2.setVisibility(View.VISIBLE);
-//            if(!mDockBar.isOpen() && !showingPreviews)mDrawerToolbar.setVisibility(View.VISIBLE);
-//            break;
-//        case DOCK_STYLE_NONE:
-//            mDrawerToolbar.setVisibility(View.GONE);
-//        default:
-//            break;
-//        }
-//    	mHandleView.hideBg(hideABBg);
-//    	mRAB.hideBg(hideABBg);
-//    	mLAB.hideBg(hideABBg);
-//    	mRAB2.hideBg(hideABBg);
-//    	mLAB2.hideBg(hideABBg);
-//    	if(mWorkspace!=null){
-//    		mWorkspace.setWallpaperHack(wallpaperHack);
-//    	}
-//    	if(mDesktopIndicator!=null){
-//    		mDesktopIndicator.setType(AlmostNexusSettingsHelper.getDesktopIndicatorType(this));
-//    		mDesktopIndicator.setAutoHide(AlmostNexusSettingsHelper.getDesktopIndicatorAutohide(this));
-//    		if(mWorkspace!=null){
-//    			mDesktopIndicator.setItems(mWorkspace.getChildCount());
-//    		}
-//    		if(isAllAppsVisible()){
-//    			if(mDesktopIndicator!=null)mDesktopIndicator.hide();
-//    		}
-//    	}
-
-    }
     /**
      * ADW:Create a smaller copy of an icon for use inside Action Buttons
      * @param info

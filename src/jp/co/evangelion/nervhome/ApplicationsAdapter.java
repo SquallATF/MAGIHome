@@ -80,7 +80,7 @@ public class ApplicationsAdapter extends ArrayAdapter<ApplicationInfo> {
 		if(themeFont!=null) textView.setTypeface(themeFont);
 		// so i'd better not use it, sorry themers
 		if (mBackground != null)
-			convertView.setBackgroundDrawable(mBackground);
+			convertView.setBackground(mBackground);
 	}
 	
 	public void setChildDrawingCacheEnabled(boolean aValue) {

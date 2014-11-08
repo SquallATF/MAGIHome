@@ -19,7 +19,6 @@ package jp.co.evangelion.nervhome;
 import static android.util.Log.d;
 import static android.util.Log.e;
 import static android.util.Log.w;
-
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 import java.text.Collator;
@@ -28,7 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -210,7 +209,7 @@ public class LauncherModel {
             final ApplicationsAdapter adapter = mApplicationsAdapter;
 
             final List<ApplicationInfo> toRemove = new ArrayList<ApplicationInfo>();
-            final ArrayList<ApplicationInfo> allItems = adapter.allItems;
+            final ArrayList<ApplicationInfo> allItems = ApplicationsAdapter.allItems;
             final int count = allItems.size();
 
             for (int i = 0; i < count; i++) {
@@ -785,13 +784,15 @@ public class LauncherModel {
             return !mFinished;
         }
 
-        public void run() {
+        @SuppressLint("Assert")
+		public void run() {
             assert(!mFinished); // can only run once
             load_workspace();
             mFinished = true;
         }
 
-        private void load_workspace() {
+        @SuppressLint("UseSparseArrays")
+		private void load_workspace() {
             if (DEBUG_LOADERS) d(LOG_TAG, "  ----> running workspace loader (" + mId + ")");
 
             android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT);
@@ -1380,6 +1381,7 @@ public class LauncherModel {
                 try {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     info.icon = new BitmapDrawable(
+                    		context.getResources(),
                             Utilities.createBitmapThumbnail(bitmap, context));
                 } catch (Exception e) {
                     packageManager = context.getPackageManager();

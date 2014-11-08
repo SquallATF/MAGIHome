@@ -66,7 +66,7 @@ public class BubbleTextView extends CounterTextView {
         Drawable background = getContext().getResources().getDrawable(R.drawable.shortcut_selector);
         background.setColorFilter(0xffff6600, PorterDuff.Mode.SRC_ATOP);
         mBackground = background;
-        setBackgroundDrawable(null);
+        setBackground(null);
         mBackground.setCallback(this);
         
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

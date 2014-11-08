@@ -257,9 +257,9 @@ public class DeleteZone extends ImageView implements DropTarget, DragController.
     }
 
 	@Override
-	public void setBackgroundDrawable(Drawable d) {
+	public void setBackground(Drawable d) {
 		// TODO Auto-generated method stub
-		super.setBackgroundDrawable(d);
+		super.setBackground(d);
         mTransition = (TransitionDrawable) d;
 	}
 	public void setPosition(int position){

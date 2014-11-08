@@ -30,6 +30,7 @@ import android.os.AsyncTask;
 import android.database.Cursor;
 import android.graphics.Rect;
 
+@SuppressWarnings("deprecation")
 public class LiveFolder extends Folder {
     private AsyncTask<LiveFolderInfo,Void,Cursor> mLoadingTask;
 
@@ -43,13 +44,13 @@ public class LiveFolder extends Folder {
         return (LiveFolder) LayoutInflater.from(context).inflate(layout, null);
     }
 
-    private static boolean isDisplayModeList(FolderInfo folderInfo) {
+	private static boolean isDisplayModeList(FolderInfo folderInfo) {
         return ((LiveFolderInfo) folderInfo).displayMode ==
                 LiveFolders.DISPLAY_MODE_LIST;
     }
 
     @Override
-    public void onItemClick(AdapterView parent, View v, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         LiveFolderAdapter.ViewHolder holder = (LiveFolderAdapter.ViewHolder) v.getTag();
 
         if (holder.useBaseIntent) {

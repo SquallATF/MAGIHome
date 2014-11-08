@@ -99,7 +99,7 @@ public class DesktopIndicator extends ViewGroup implements AnimationListener {
 			} else {
 				fpe = false;
 			}
-			mSlider1.setBounds(j, i, j + 113, 11);
+			mSlider1.setBounds(j, 1, j + 113, 11);
 		}
 		
 		@Override

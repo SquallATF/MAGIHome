@@ -41,7 +41,7 @@ public class QuickActionWindow extends PopupWindow implements OnTouchListener {
 		setWidth(width);
 		setHeight(height);
 		ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
-		ContentView contentView = new ContentView(mContext, mAnchor, '\0');
+		ContentView contentView = new ContentView(mContext, mAnchor);
 		contentView.setLayoutParams(lp);
 		contentView.setOnTouchListener(this);
 		setContentView(contentView);
@@ -78,14 +78,6 @@ public class QuickActionWindow extends PopupWindow implements OnTouchListener {
 			right = top + width;
 			bottom = width + top;
 			mIcon.setBounds(left, top, right, bottom);
-		}
-		
-		private ContentView(Context context, View view, byte b) {
-			this(context, view);
-		}
-		
-		private ContentView(Context context, View view, char c) {
-			this(context, view, (byte)c);
 		}
 		
 		@Override

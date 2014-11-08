@@ -17,17 +17,16 @@
 package jp.co.evangelion.nervhome;
 
 import java.util.ArrayList;
-
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
 import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
-
 import jp.co.evangelion.nervhome.FlingGesture.FlingListener;
 import jp.co.evangelion.nervhome.extended.ScreenItemView;
 import jp.co.evangelion.nervhome.selector.C148b;
 import jp.co.evangelion.nervhome.selector.ScreenSelector;
 import mobi.intuitit.android.widget.WidgetSpace;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetHostView;
 import android.content.ComponentName;
@@ -175,7 +174,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         	CellLayout screen=(CellLayout)layoutInflter.inflate(R.layout.workspace_screen, this, false);
         	addView(screen);
         }
-        mFlingGesture = new FlingGesture();
+        mFlingGesture = new FlingGesture(context);
         mFlingGesture.setListener(this);
         initWorkspace();
     }
@@ -309,7 +308,7 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         mCurrentScreen = screen + mCurrentScreen;
         scrollTo(mCurrentScreen * getWidth(), 0);
 
-        mLauncher.getDesktopIndicator().indicate(Mpb(mScroller.getCurrX(),
+        mLauncher.getDesktopIndicator().indicate(Mpb(getScrollX(),
         		getWidth() * getChildCount()));
         invalidate();
     }
@@ -487,7 +486,8 @@ public class Workspace extends WidgetSpace implements Interfacel, DropTarget, Dr
         }
     }
 
-    @Override
+    @SuppressLint("DrawAllocation")
+	@Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int childLeft = 0;
         final int count = getChildCount();

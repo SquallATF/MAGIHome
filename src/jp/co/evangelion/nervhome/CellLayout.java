@@ -26,7 +26,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.ContextMenu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -394,14 +393,14 @@ public class CellLayout extends WidgetCellLayout {
         cellInfo.vacantCells.add(cell);
     }
 
-    private static boolean isColumnEmpty(int x, int top, int bottom, boolean[][] occupied) {
+/*    private static boolean isColumnEmpty(int x, int top, int bottom, boolean[][] occupied) {
         for (int y = top; y <= bottom; y++) {
             if (occupied[x][y]) {
                 return false;
             }
         }
         return true;
-    }
+    }*/
 
     private static boolean isRowEmpty(int y, int left, int right, boolean[][] occupied) {
         for (int x = left; x <= right; x++) {
@@ -762,8 +761,8 @@ public class CellLayout extends WidgetCellLayout {
         float widgetSize = resources.getDimension(R.dimen.widget_size);
 
         // Always round up to next largest cell
-        int spanX = (int)FloatMath.ceil(width / widgetSize);
-        int spanY = (int)FloatMath.ceil(height / widgetSize);
+        int spanX = (int)Math.ceil(width / widgetSize);
+        int spanY = (int)Math.ceil(height / widgetSize);
 
         return new int[] { spanX, spanY };
     }
@@ -926,7 +925,7 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
         }
         
         public LayoutParams(int cellX, int cellY, int cellHSpan, int cellVSpan) {
-            super(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            super(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             this.cellX = cellX;
             this.cellY = cellY;
             this.cellHSpan = cellHSpan;

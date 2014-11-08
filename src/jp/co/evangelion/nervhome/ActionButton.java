@@ -235,17 +235,17 @@ OnLongClickListener, DragSource {
 		if(hide!=hiddenBg){
 			hiddenBg=hide;
 			if(!hide)
-				this.setBackgroundDrawable(bgResource);
+				this.setBackground(bgResource);
 			else{
-				this.setBackgroundDrawable(bgEmpty);
+				this.setBackground(bgEmpty);
 			}
 		}
 	}
 
 	@Override
-	public void setBackgroundDrawable(Drawable d) {
+	public void setBackground(Drawable d) {
 		// TODO Auto-generated method stub
-		super.setBackgroundDrawable(d);
+		super.setBackground(d);
 		if(d!=bgEmpty){
 			if(bgResource!=null)bgResource.setCallback(null);
 			bgResource=d;

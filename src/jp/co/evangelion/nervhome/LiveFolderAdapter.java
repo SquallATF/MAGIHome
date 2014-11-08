@@ -19,6 +19,7 @@ package jp.co.evangelion.nervhome;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -32,11 +33,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.lang.ref.SoftReference;
 
+@SuppressLint("UseSparseArrays")
+@SuppressWarnings("deprecation")
 public class LiveFolderAdapter extends CursorAdapter {
     private boolean mIsList;
     private LayoutInflater mInflater;

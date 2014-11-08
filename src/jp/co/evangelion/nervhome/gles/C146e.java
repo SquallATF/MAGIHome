@@ -32,12 +32,9 @@ public class C146e extends C139i {
             GLES20.glUseProgram(mProgram);
             fPp.fPa.mPa();
             GLES20.glUniformMatrix4fv(mView, 1, false, fPp.fPa.fPd, 0);
-            int ai[] = fPp.fPe;
-            int i = ai.length;
-            for(int j = 0; j < i; j++)
+            for(int j : fPp.fPe)
             {
-                int j1 = ai[j];
-                C144c c144c1 = fPp.fPd[j1];
+                C144c c144c1 = fPp.fPd[j];
                 if(c144c1.fc)
                 {
                     GLES20.glViewport(0, 0, fj, ff);
@@ -48,12 +45,9 @@ public class C146e extends C139i {
                 }
             }
 
-            int ai1[] = fPp.fPe;
-            int k = ai1.length;
-            for(int l =0;l < k; l++) 
+            for(int n : fPp.fPe) 
             {
-                int i1 = ai1[l];
-                C144c c144c = fPp.fPd[i1];
+                C144c c144c = fPp.fPd[n];
                 if(c144c.fc)
                 {
                     GLES20.glViewport(fj, 0, fj, ff);
@@ -75,8 +69,9 @@ public class C146e extends C139i {
 			fe = width;
 			ff = height;
 			// fd = (new Parallax()).get3dDepthSettingsFl();
-			fg = (float) width * FPo;
-			fh = (float) height * FPo;
+			fd = 0.588f;
+			fg = width * FPo;
+			fh = height * FPo;
 			fi = -0.35F * (Fb * fd);
 			fj = width >> 1;
 			fx.mPa(width, height);

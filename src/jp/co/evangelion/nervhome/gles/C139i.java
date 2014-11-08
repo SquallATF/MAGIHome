@@ -84,16 +84,13 @@ public class C139i implements Renderer {
 	
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		int i = 0;
 		fPp.fPa.mPa();
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		GLES20.glUseProgram(mProgram);
 		checkGlError("glUseProgram");
 		GLES20.glUniformMatrix4fv(mProjection, 1, false, fPp.fPa.fPc, 0);
 		GLES20.glUniformMatrix4fv(mView, 1, false, fPp.fPa.fPd, 0);
-		int ai[] = fPp.fPe;
-		for (int j = ai.length; i < j; i++) {
-			int k = ai[i];
+		for (int k : fPp.fPe) {
 			C144c c144c = fPp.fPd[k];
 			if (c144c.fc)
 				c144c.mPa(mModel, mVertices, mTextureCoords);

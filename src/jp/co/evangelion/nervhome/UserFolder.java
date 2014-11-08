@@ -122,7 +122,7 @@ public class UserFolder extends Folder implements DropTarget {
 			}
 			// so i'd better not use it, sorry themers
 			if (mBackground != null)
-				convertView.setBackgroundDrawable(mBackground);
+				convertView.setBackground(mBackground);
 			return convertView;
 		}
     	

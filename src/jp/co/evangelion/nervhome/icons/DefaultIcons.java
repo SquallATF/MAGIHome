@@ -31,10 +31,23 @@ import android.widget.ImageView;
 
 public class DefaultIcons extends Activity implements OnItemClickListener {
 	  public static final ColorMatrixColorFilter mFilter = new ColorMatrixColorFilter(new float[] { 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.3F, 0.6F, 0.0F, 0.0F, 0.0F, 0.2F, 0.5F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F });
-	  private final ViewGroup.LayoutParams mLayoutParams = new AbsListView.LayoutParams(144, 144);
+	  private ViewGroup.LayoutParams mLayoutParams = new AbsListView.LayoutParams(144, 144);
 	  private GridView mIconGrid;
 	  private boolean mFlagd = false;
-	  private final AsyncTask mTask = new MyTask();
+	  private AsyncTask<Object, Void, Object> mTask = new AsyncTask<Object, Void, Object>() {
+			private MyAdapter mAdapter;
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				mAdapter = new MyAdapter(DefaultIcons.this);
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Object result) {
+				mIconGrid.setAdapter(mAdapter);
+			}
+		};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,21 +105,6 @@ public class DefaultIcons extends Activity implements OnItemClickListener {
 			return bitmap1;
 		}
 		return null;
-	}
-
-	class MyTask extends AsyncTask<Object, Void, Object> {
-		private MyAdapter mAdapter;
-
-		@Override
-		protected Object doInBackground(Object... params) {
-			mAdapter = new MyAdapter(DefaultIcons.this);
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Object result) {
-			mIconGrid.setAdapter(mAdapter);
-		}
 	}
 	
 	class MyAdapter extends BaseAdapter {
