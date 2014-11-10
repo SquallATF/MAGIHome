@@ -17,6 +17,7 @@ import android.view.View;
 public class C142f {
 	static String TAG = C142f.class.getSimpleName();
 	public int fPb;
+	private static final int GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG = 0x8C02;
 
 	public static Bitmap MPa(View view) {
 		Bitmap bitmap = Bitmap.createBitmap(256, 512, Bitmap.Config.ARGB_4444);
@@ -57,13 +58,13 @@ public class C142f {
 		C142f c142f = new C142f();
 		InputStream inputStream = resources.openRawResource(id);
 		byte[] buffer = new byte[1024000];
-		int index = 0;
+		int totalSize = 0;
 		try {
 			for (;;) {
 				int k = inputStream.read(buffer);
 				if (k != -1) {
-					buffer[index] = (byte) k;
-					index += k;					
+					buffer[totalSize] = (byte) k;
+					totalSize += k;					
 				} else { break ;}
 			}
 		} catch (IOException e) {
@@ -76,14 +77,14 @@ public class C142f {
 		}
 		ByteBuffer bytebuffer = ByteBuffer.wrap(buffer);
 		bytebuffer.order(ByteOrder.LITTLE_ENDIAN);
-		int l = bytebuffer.getInt(0);
-		int size = index - l;
+		int headerSize = bytebuffer.getInt(0);
+		int size = totalSize - headerSize;
 		int width = bytebuffer.getInt(4);
 		int height = bytebuffer.getInt(8);
-		bytebuffer.getInt(16);
-		byte[] buff1 = new byte[size];
+		bytebuffer.getInt(16); // MipMapCount
+		byte[] data = new byte[size];
 		Log.d(TAG, "texture size" + size);
-		System.arraycopy(buffer, l, buff1, 0, size);
+		System.arraycopy(buffer, headerSize, data, 0, size);
 		int[] textures = new int[1];
 		GLES20.glGenTextures(textures.length, textures, 0);
 		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
@@ -95,8 +96,8 @@ public class C142f {
 		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,
 				GLES20.GL_CLAMP_TO_EDGE);
 		GLES20.glCompressedTexImage2D(GLES20.GL_TEXTURE_2D, 0,
-				GLES11Ext.GL_ATC_RGBA_EXPLICIT_ALPHA_AMD, width, height, 0, size,
-				ByteBuffer.wrap(buff1));
+				GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG, width, height, 0, size,
+				ByteBuffer.wrap(data));
 		c142f.fPb = textures[0];
 		return c142f;
 	}
